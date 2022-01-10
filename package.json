@@ -1,0 +1,32 @@
+{
+  "name": "eac",
+  "version": "1.0.0",
+  "description": "estate access control app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src",
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amazingrace17/EAC.git"
+  },
+  "author": "tolulope",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amazingrace17/EAC/issues"
+  },
+  "homepage": "https://github.com/amazingrace17/EAC#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "mongodb": "^4.3.0",
+    "mongoose": "^6.1.5",
+    "nodemon": "^2.0.15",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {}
+}
