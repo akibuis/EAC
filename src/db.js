@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const db = 'mongodb+srv://amazing:amazing@cluster0.51ryp.mongodb.net/Cluster0?retryWrites=true&w=majority';
+const db = 'mongodb+srv://amazing:amazing@cluster0.51ryp.mongodb.net/Eac?retryWrites=true&w=majority';
 const dbConnection = {
   getConnect: async () => {
      

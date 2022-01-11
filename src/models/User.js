@@ -45,7 +45,7 @@ const userSchema = new Schema({
   ResidentType: {
     type: String,
     enum: ['Head of House', 'Temporary', 'Others'],
-    default: 'normal'
+    default: 'Head of House'
   },
   
   isVerified: {
