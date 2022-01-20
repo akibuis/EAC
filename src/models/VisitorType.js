@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const VisitorTypeSchema = new Schema({
-  Name: {
+  name: {
     type: String,
     required: true,
     
