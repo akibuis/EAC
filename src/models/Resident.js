@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 
-const { Schema, model, SchemaTypes } = mongoose;
+const { Schema, model , SchemaTypes} = mongoose;
 const { isEmail, isInt } = validator;
 
-const userSchema = new Schema({
+const residentSchema = new Schema({
   firstname: {
     type: String,
     required: true,
@@ -15,23 +15,16 @@ const userSchema = new Schema({
     required: true,
     trim: true
   },
-  username: {
-    type: String,
-    required: [true, 'Please enter a username'],
-    unique: true,
-    lowercase: true,
-    trim: true
-  },
+  
   email: {
     type: String,
-    required: [true, 'Please enter an email'],
     unique: true,
     lowercase: true,
     validate: [isEmail, 'Please enter a valid email'],
     trim: true
   },
   phone: {
-    type: String,
+    type: Number,
     required: [true, 'Please enter a phone number'],
     unique: true,
     validate: [isInt, 'Please enter a valid phone number'],
@@ -42,27 +35,35 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Please enter a password']
   },
-  ResidentType: {
-    type: String,
-    enum: ['Head of House', 'Temporary', 'Others'],
-    default: 'Head of House'
+  residentType: {
+    type: SchemaTypes.ObjectId,
+    ref: 'residentType',
+    required: true,
   },
-  BuildingNo : {
-        type: Number,
-  },
+  buildingNo : {
+    
+      type: SchemaTypes.ObjectId,
+      ref: 'building',
+      required: true,
+      
+    },
+  
 
-  ResidentCode :{
-        
-          type: SchemaTypes.ObjectId,
-          ref: 'resident',
-          required: true,
-          
-        
+  residentCode :{
+        type :  String,
+        required: true,
   },
   
+    Headuser: {
+      type: SchemaTypes.ObjectId,
+      ref: 'user',
+      required: true,
+      
+    
+  },
   
 },
   { timestamps: true }
 );
 
-export const User = model('user', userSchema);
+export const Resident = model('resident', residentSchema);
