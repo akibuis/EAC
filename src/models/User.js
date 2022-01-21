@@ -59,7 +59,10 @@ const userSchema = new Schema({
           
         
   },
-  
+  Recommendation : {
+    type: String,
+
+  }
   
 },
   { timestamps: true }
