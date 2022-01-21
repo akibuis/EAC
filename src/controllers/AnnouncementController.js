@@ -23,10 +23,10 @@ const AnnouncementController = {
 
      getAnnouncement : async(req, res) =>{
          try{
-             const Announcement = await Announcement.find({}).lean().exec();
+             const Announcements = await Announcement.find({}).lean().exec();
              return res 
              .status(201)
-             .json({status:'success', message: 'Successful', data: Announcement})
+             .json({status:'success', message: 'Successful', data: Announcements})
          }catch(err) {
              return res.status(500).json({status:'fail', message:'server err', err})
          }
