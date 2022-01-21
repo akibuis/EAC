@@ -59,7 +59,7 @@ const VisitorTypeController = {
     
         const { id } = req.params;
         try {
-        const visitorType = await VisitorType.findById(id);
+        const visitorType = await VisitorType.findById(id).
         visitorType.deleteOne();
         
 
