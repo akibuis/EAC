@@ -5,6 +5,6 @@ import VisitorTypeController from '../controllers/VisitorTypeController.js'
 const router = Router();
 
 router.route('/').get(VisitorTypeController.getVisitorType).post(VisitorTypeController.createVisitorType)
-router.route('/:id').put(VisitorTypeController.editVisitorType)
+router.route('/:id').put(VisitorTypeController.editVisitorType).delete()
 
 export default router;

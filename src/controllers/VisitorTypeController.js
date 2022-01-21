@@ -54,6 +54,63 @@ const VisitorTypeController = {
          }
         
     
-     }
+     },
+    removeVisitorTypes: async (req, res) => { 
+    
+        const { id } = req.params;
+        try {
+        const visitorType = await VisitorType.findById(id);
+        visitorType.deleteOne();
+        
+
+        if (visitorType) {
+            return res.status(200).json({ 
+                status: 'success',
+                message: 'visitor type removed', 
+            });
+        } 
+        else {
+            return res.status(400).json({ 
+                status: 'fail',
+                message: 'visitor type  not found.', 
+            });
+        }
+            
+
+        } catch (err) {
+        return res.status(500).json({ 
+            status: 'fail', 
+            message: 'server err', 
+            err 
+            });
+        }
+    },
+    removeAllVisitorTypes: async (req, res) => { 
+        try {
+        const visitorType = await VisitorType.deleteMany({visitorType});
+
+        if (visitorType) {
+            return res.status(200).json({ 
+                status: 'success',
+                message: 'All visitor types removed successfully', 
+            });
+        } 
+        else {
+            return res.status(400).json({ 
+                status: 'fail',
+                message: 'visitor type not found.', 
+            });
+        }
+            
+
+        } catch (err) {
+        return res.status(500).json({ 
+            status: 'fail', 
+            message: 'server err', 
+            err 
+            });
+        }
+    },
 }
+
 export default VisitorTypeController;
