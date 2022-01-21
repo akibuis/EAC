@@ -55,7 +55,7 @@ const userSchema = new Schema({
         
           type: SchemaTypes.ObjectId,
           ref: 'resident',
-          required: true,
+          // required: true,
           
         
   },
