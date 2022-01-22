@@ -11,15 +11,7 @@ import { User } from '../models/User.js';
 dotenv.config();
 
 const UserController = {
-  // generateSha256Hash: async (userEmail) => {
-  //   const sha256Hash = crypto.createHash('sha256');
-  //   const r = (Math.random() + 1).toString(36).substring(2);
-
-  //   const data = sha256Hash.update(userEmail + r, 'utf-8');
-  //   const gen_hash = data.digest('hex');
-    
-  //   return gen_hash;
-  // },
+  
   
   register: async (req, res) => {
     const reqBody = req.body;
@@ -125,65 +117,64 @@ const UserController = {
     }
   },
 
-  // verifyUser: async (req, res) => {
-  //   const { id, token } = req.params;
-  //   const user = await User.findById(id).select(["-password", "-email", "-phone", "-role"]);
+  signUpSecurity: async (req, res) => {
+    const { firstname, lastname, email, password, confirmPassword } = req.body;
+
+    if (!firstname || !lastname || !email || !password) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'Please fill all fields' });
+    }
+
+    if(password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'Passwords do not match' });
+    }
+
+    //find if email already exist
+    const isUserExist = await User.findOne({ email });
+
+    if (isUserExist) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'User already exists' });
+    }
+
+    // password hash
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+
     
+      const newUser = new User({ firstname, lastname, email, password, role: "admin" });
+      const savedUser = await newUser.save();
 
-  //   if(!user) {
-  //     return res.status(404).json({ 
-  //       status: "failed", 
-  //       message: "user not found" 
-  //     });
-  //   }
+      if(savedUser) {
+        jwt.sign(
+          { id: savedUser._id },
+          process.env.SECRET,
+          { expiresIn: +process.env.JWT_EXPIRY },
+          (err, token) => {
+            if (err) {
+              throw err;
+            }
+
+            res.status(200).json({
+              status: 'success',
+              data: {
+                token: "Bearer " + token,
+                id: savedUser._id,
+                firstname: savedUser.firstname,
+                lastname: savedUser.lastname,
+                email: savedUser.email,
+              },
+              message: 'successful',
+            });
+          }
+        );
+      }
     
-  //   if(user.isVerified) {
-  //     return res.status(410).json({ 
-  //       status: "failed", 
-  //       message: "invalid token: user is already verified" 
-  //     });
-  //   }
-  //   if(!token || token !== user.accountVerifyToken  /* || accountVerifyTokenExpiration isExpired */) {
-  //     return res.status(405).json({ 
-  //       status: "failed", 
-  //       message: "invalid verification token" 
-  //     });
-  //   }
-
-  //   try {
-  //     if (token === user.accountVerifyToken) {
-        
-  //       user.isVerified = true;
-  //       user.accountVerifyToken = '';
-  //       user.accountVerifyTokenExpiration = '';
-  //       user.save();
-
-  //       return res.status(200).json({
-  //         status: 'success',
-  //         message: "successful verification", 
-  //         data: {
-  //           _id: user._id, 
-  //           firstname: user.firstname, 
-  //           lastname: user.lastname, 
-  //           username: user.username, 
-  //           isVerified: user.isVerified,
-  //           verifyToken: user.accountVerifyToken,
-  //           verifyTokenExpiration: user.accountVerifyTokenExpiration
-  //         }
-  //       })
-  //     }
-
-  //     return res.status(405).json({ 
-  //       status: "failed", 
-  //       message: "verification not successful" 
-  //     });
-  //   } catch (error) {
-  //     return res.status(500).json({ 
-  //       status: "failed", 
-  //       message: error.message 
-  //     });
-  //   }
-  // },
+  },
 
   login: async (req, res) => {
     const { email, password } = req.body;
@@ -232,28 +223,21 @@ const UserController = {
   },
 
   profile: async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params.id;
     
-    try {
-      const user = await User.findById(id).select("-password");
+    try { 
+      const user = await User.findById(req.params.id)
+      
 
-      if(!user) return res.status(404).json({
-        status: 'failed',
-        message: 'user not found'
+      if(user) return res.status(404).json({
+        status: 'success',
+        message: 'user retrieved successfully',
+        data:user
       })
+      console.log(req.params.id)
 
-      if (id === req.user.id) {
-        return res.status(200).json({
-          status: 'success',
-          message: 'successful',
-          data: user
-        });
-      }
 
-      return res.status(401).json({
-        status: 'failed',
-        message: 'only personal profile access allowed',
-      });
+      
     } catch (error) {
       return res.status(500).json({
         status: "failed",
@@ -290,7 +274,17 @@ const UserController = {
         message: error.message
       })  
     }
-  }
+  },
+  getUsers : async(req, res) =>{
+    try{
+        const Users = await User.find({}).lean().exec();
+        return res 
+        .status(201)
+        .json({status:'success', message: 'Successful', data: Users})
+    }catch(err) {
+        return res.status(500).json({status:'fail', message:'server err', err})
+    }
+},
 }
 
 export default UserController;

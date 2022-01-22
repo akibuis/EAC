@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const { Schema, model } = mongoose;
+const { Schema, model , SchemaTypes} = mongoose;
 
 const visitorSchema= new Schema({
   name: {
@@ -33,7 +33,8 @@ const visitorSchema= new Schema({
   },
   status :{
       type : String,
-      enum : [Pending, Approve, Decline],
+      enum : ['Pending', 'Approve', 'Decline'],
+      default: 'Pending',
 
   },
   phoneNumber : {

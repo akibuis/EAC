@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 
 const { Schema, model , SchemaTypes} = mongoose;
-const { isEmail, isInt } = validator;
+const { isEmail } = validator;
 
 const residentSchema = new Schema({
   firstname: {
@@ -23,13 +23,12 @@ const residentSchema = new Schema({
     validate: [isEmail, 'Please enter a valid email'],
     trim: true
   },
-  phone: {
-    type: Number,
-    required: [true, 'Please enter a phone number'],
-    unique: true,
-    validate: [isInt, 'Please enter a valid phone number'],
-    trim: true
-  },
+  // phoneNumber: {
+  //   type: Number,
+  //   required: [true, 'Please enter a phone number'],
+  //   unique: true,
+  //   validate: [isInt, 'Please enter a valid phone number'],
+  // },
   
   password: {
     type: String,
@@ -37,24 +36,24 @@ const residentSchema = new Schema({
   },
   residentType: {
     type: SchemaTypes.ObjectId,
-    ref: 'residentType',
-    required: true,
+    ref: 'ResidentType',
+    // required: true,
   },
   buildingNo : {
     
       type: SchemaTypes.ObjectId,
       ref: 'building',
-      required: true,
+      // required: true,
       
     },
   
 
   residentCode :{
         type :  String,
-        required: true,
+        // required: true,
   },
   
-    Headuser: {
+    user: {
       type: SchemaTypes.ObjectId,
       ref: 'user',
       required: true,

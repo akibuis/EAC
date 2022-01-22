@@ -43,12 +43,18 @@ const userSchema = new Schema({
     required: [true, 'Please enter a password']
   },
   ResidentType: {
-    type: String,
-    enum: ['Head of House', 'Temporary', 'Others'],
-    default: 'Head of House'
+    type: SchemaTypes.ObjectId,
+          ref: 'residentType',
+          // required: true,
   },
   BuildingNo : {
-        type: Number,
+    type: SchemaTypes.ObjectId,
+    ref: 'buildingNo',
+    // required: true,
+  },
+  role :{
+    type: String,
+    enum :['admin', 'head of house', 'security', 'resident']
   },
 
   ResidentCode :{
@@ -60,7 +66,9 @@ const userSchema = new Schema({
         
   },
   Recommendation : {
-    type: String,
+    type: SchemaTypes.ObjectId,
+          ref: 'recommendation',
+          // required: true,
 
   }
   

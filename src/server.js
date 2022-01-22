@@ -18,13 +18,12 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.json({
     status: 'success',
-    message: 'Welcome to Our Food Management API.',
-    description: 'Stutern 1.0 Inter-track Group 4 Project (Backend).',
-    contributors: ['Tolulope Arinola', 'Anthony Ayeni'],
+    message: 'Welcome to Trigonal Estate Management',
+    description: 'A app that helps you control estate access. ',
+    contributors: 'Tolulope Arinola',
     members: {
-      uiux: ['Kareem Johnbelieve', 'Assumpta Chukwu', 'Thami Frama'],
-      fd: ['Abiodun Hodonu'],
-      swe: ['Tolulope Arinola', 'Anthony Ayeni']
+      
+      swe: ['Tolulope Arinola', 'Ismail Akibu']
     }
 
   });
